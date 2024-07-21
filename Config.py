@@ -1,0 +1,2 @@
+
+HIDDEN_SIZE = 256
