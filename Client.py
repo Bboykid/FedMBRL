@@ -39,7 +39,11 @@ class FRLClient():
         # Initialize true environment
         self.env = env
         self.obs_size = env.observation_space.shape[0]
-        self.action_size = env.action_space.shape[0]
+        # Check if action_space is Discrete
+        if isinstance(env.action_space, gym.spaces.Discrete):
+            self.action_size = 1
+        else:
+            self.action_size = env.action_space.shape[0]
         self.hidden_size = hidden_size
         
         # Initialize prediction model (predict the state transition)

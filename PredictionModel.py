@@ -18,6 +18,20 @@ class PredictionModel(nn.Module):
   def forward(self, x):
       return self.net(x)
 
+class PredictionModel(nn.Module):
+  def __init__(self, obs_size, action_size, hidden_size = HIDDEN_SIZE):
+    super().__init__()
+    self.net = nn.Sequential (
+        nn.Linear(obs_size + action_size, hidden_size),
+        nn.ReLU(),
+        nn.Linear(hidden_size, hidden_size),
+        nn.ReLU(),
+        nn.Linear(hidden_size, obs_size),
+    )
+    
+  def forward(self, x):
+      return self.net(x)
+
 
 class GaussianModel(nn.Module):
   def __init__(self, obs_size, action_size, hidden_size=HIDDEN_SIZE, learn_logvar_bounds=False):
@@ -50,10 +64,31 @@ class GaussianModel(nn.Module):
     # Get mean and log variance
     mean_and_logvar = self.mean_logvar(x)
     mean = mean_and_logvar[..., :self.out_size]
-    logvar = mean_and_logvar[..., self.out_size:]
+    logvar = mean_and_logvar[..., self.out_size :]
     
     # Apply bounds to log variance using softplus function
     logvar = self.max_logvar - F.softplus(self.max_logvar - logvar)
     logvar = self.min_logvar + F.softplus(logvar - self.min_logvar)
     
+    if logvar.shape[0] == 1:
+            mean = mean.squeeze(0)
+            logvar = logvar.squeeze(0)
+    
     return mean, logvar
+  
+  
+class DropoutMLP(nn.Module):
+  def __init__(self, obs_size, action_size, hidden_size=HIDDEN_SIZE, dropout_prob=0.5):
+    super().__init__()
+    self.net = nn.Sequential(
+      nn.Linear(obs_size + action_size, hidden_size),
+      nn.ReLU(),
+      nn.Dropout(p=dropout_prob),  # Add Dropout layer here
+      nn.Linear(hidden_size, hidden_size),
+      nn.ReLU(),
+      nn.Dropout(p=dropout_prob),  # Add Dropout layer here
+      nn.Linear(hidden_size, obs_size),
+      )
+
+  def forward(self, x):
+    return self.net(x)
