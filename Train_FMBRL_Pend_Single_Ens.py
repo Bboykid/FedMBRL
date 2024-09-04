@@ -59,6 +59,7 @@ def train(env_paras, device, save_dir, timesteps_real_per_round = 500, timesteps
     
     env_models = []
     for round_idx in range(rounds_num):
+        env_models = []
         print('------------------------------')
         print("round: " + str(round_idx))
         for client_idx in range(len(Clients)):
@@ -98,15 +99,16 @@ def train(env_paras, device, save_dir, timesteps_real_per_round = 500, timesteps
 
 if __name__ == '__main__':
  # initialize the client and server
- timesteps_real_per_round = 500
+ timesteps_real_per_round = 2000
  timesteps_fc_per_round = timesteps_real_per_round * 30
- epoch_per_round = 100
+ epoch_per_round = 10
  rounds_num = 30
  batch_size_env_model = 128 
- test_dir= "H_Env_Base_Pen_EnsNum=3_Test2"
+ test_dir= "H_Env_Env3/EnsNum3_r30_epoch10_ts2000"
  env_paras = [7.0, 10.0, 13.0]
+#  env_paras = [13.0]
  device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
- exper_num = 5
+ exper_num = 3
  for exper_idx in range(exper_num):
   for env_idx in range(len(env_paras)):
    env_para = [env_paras[env_idx],env_paras[env_idx],env_paras[env_idx]]

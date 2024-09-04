@@ -141,6 +141,7 @@ class FRLClient():
             obs_tensor = np.concatenate((observation, self.emb)).astype(np.float32)
             if done or truncated:
                 observation, info = env.reset()
+                obs_tensor = np.concatenate((observation, self.emb)).astype(np.float32)
         env.close()
 
         df["actions"] = actions
