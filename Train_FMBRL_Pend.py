@@ -98,12 +98,12 @@ def train(env_paras, device, save_dir, timesteps_real_per_round = 500, timesteps
 
 if __name__ == '__main__':
     # initialize the client and server
-	timesteps_real_per_round = 500
+	timesteps_real_per_round = 1000
 	timesteps_fc_per_round = timesteps_real_per_round * 30
-	epoch_per_round = 100
+	epoch_per_round = 10
 	rounds_num = 30
 	batch_size_env_model = 128
-	test_dir= "H_Env_Base_Pen"
+	test_dir= "H_Env_Base_Pen_TS1000"
 	env_paras = [7.0, 10.0, 13.0]
 	device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

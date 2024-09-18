@@ -106,13 +106,13 @@ if __name__ == '__main__':
 	timesteps_real_per_round = 2000
 	timesteps_fc_per_round = timesteps_real_per_round * 30
 	epoch_per_round = 10
-	rounds_num = 30
+	rounds_num = 20
 	batch_size_env_model = 128
-	test_dir= "H_Env_Pen_Emb_TS2000"
-	env_paras = [7.0, 10.0, 13.0]
+	test_dir= "H_Env_Pen_Emb_TS2000_NoneH_g10"
+	env_paras = [10.0, 10.0, 10.0]
 	device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-	exper_num = 5
+	exper_num = 3
 	for exper_idx in range(exper_num):
 		rewards_log =train(env_paras, device, test_dir, timesteps_real_per_round, timesteps_fc_per_round, epoch_per_round, rounds_num, batch_size_env_model)
 		np.save( test_dir + "/" + str(exper_idx) + "_reward_logs.npy", rewards_log)

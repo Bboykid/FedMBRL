@@ -103,7 +103,7 @@ if __name__ == '__main__':
  epoch_per_round = 100
  rounds_num = 30
  batch_size_env_model = 128
- test_dir= "H_Env_Base_Pen_Test3"
+ test_dir= "H_Env_Base_Pen_Test_TS1000"
  env_paras = [7.0, 10.0, 13.0]
  device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
  exper_num = 5
